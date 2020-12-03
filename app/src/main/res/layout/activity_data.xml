@@ -17,7 +17,8 @@
 
 
     <TextView
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
@@ -27,7 +28,7 @@
         android:textSize="25sp"/>
 
     <RadioGroup
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rgStatus"
@@ -66,7 +67,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTasks"
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

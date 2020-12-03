@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,9 +79,12 @@ public class DataActivity extends AppCompatActivity {
         Adapter();
         adapter = new DataActivityAdapter(pendingComplains,ctx);
         rvTasks.setAdapter(adapter);
+        adapter = new DataActivityAdapter(pendingComplains,ctx);
+        rvTasks.setAdapter(adapter);
         rbFinished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                solvedComplains.clear();
                 Adapter();
                 adapter = new DataActivityAdapter(solvedComplains,ctx);
                 rvTasks.setAdapter(adapter);
@@ -90,6 +94,7 @@ public class DataActivity extends AppCompatActivity {
         rbPending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pendingComplains.clear();
                 Adapter();
                 adapter = new DataActivityAdapter(pendingComplains,ctx);
                 rvTasks.setAdapter(adapter);

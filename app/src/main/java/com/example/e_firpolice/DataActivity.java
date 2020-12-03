@@ -82,7 +82,7 @@ public class DataActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Adapter();
-                adapter = new DataActivityAdapter(pendingComplains,ctx);
+                adapter = new DataActivityAdapter(solvedComplains,ctx);
                 rvTasks.setAdapter(adapter);
             }
         });
@@ -91,7 +91,7 @@ public class DataActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Adapter();
-                adapter = new DataActivityAdapter(solvedComplains,ctx);
+                adapter = new DataActivityAdapter(pendingComplains,ctx);
                 rvTasks.setAdapter(adapter);
             }
         });

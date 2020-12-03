@@ -2,6 +2,7 @@ package com.example.e_firpolice;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +55,21 @@ public class DataActivity extends AppCompatActivity {
         ctx =DataActivity.this;
         rbFinished = findViewById(R.id.rbFinished);
         rbPending = findViewById(R.id.rbPending);
+
+        Toolbar actionBar = (Toolbar) findViewById(R.id.toolbar_data_activity);
+        setSupportActionBar(actionBar);
+        if(actionBar!=null){
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("DataBase") ;
+        }
+        assert actionBar != null;
+        actionBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         rvTasks = (RecyclerView) findViewById(R.id.rvTasks);
         rvTasks.setHasFixedSize(true);
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
@@ -159,7 +175,7 @@ public class DataActivity extends AppCompatActivity {
         else
         {
             pressedTime = System.currentTimeMillis();
-            showToast = Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT);
+            showToast = Toast.makeText(this, "Press again to LogOut", Toast.LENGTH_SHORT);
             showToast.show();
         }
     }

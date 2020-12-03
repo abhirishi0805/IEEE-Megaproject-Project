@@ -59,6 +59,7 @@ public class LogOutDialog extends AppCompatDialogFragment
             public void onResponse(JSONObject response) {
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
+
             }
         }, new Response.ErrorListener() {
             @Override

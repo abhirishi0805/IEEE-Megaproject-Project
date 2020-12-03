@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -59,7 +60,6 @@ public class DataActivity extends AppCompatActivity {
         Toolbar actionBar = (Toolbar) findViewById(R.id.toolbar_data_activity);
         setSupportActionBar(actionBar);
         if(actionBar!=null){
-            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("DataBase") ;
         }
         assert actionBar != null;
@@ -158,6 +158,12 @@ public class DataActivity extends AppCompatActivity {
         {
             LogOutDialog timeUpDialog = new LogOutDialog(ctx);
             timeUpDialog.show(getSupportFragmentManager(), "Log Out?");
+        }
+
+        if(item.getItemId() == R.id.refresh)
+        {
+            Intent intent = new Intent(this, DataActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

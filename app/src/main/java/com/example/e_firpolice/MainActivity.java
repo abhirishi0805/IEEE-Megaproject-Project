@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     String user,pass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void login(String name,String password){
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        EditText username = (EditText) findViewById(R.id.name);
+        EditText password = (EditText) findViewById(R.id.password);
+        username.setText(null);
+        password.setText(null);
+        username.requestFocus();
+    }
+
+    public void login(String name, String password){
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         String url = "https://dry-anchorage-43299.herokuapp.com/users/login";
         JSONObject o = new JSONObject();

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="50dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="false"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -72,10 +72,10 @@
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="5dp"
                 android:textColor="#212121"
                 android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="left"
                 tools:text="8093749588" />
 
             <RadioButton
@@ -88,7 +88,6 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 
 </LinearLayout>

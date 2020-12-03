@@ -7,4 +7,10 @@
         android:title="Log Out"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/refresh"
+        android:title="Refresh"
+        android:icon="@drawable/refresh"
+        app:showAsAction="always" />
+
 </menu>

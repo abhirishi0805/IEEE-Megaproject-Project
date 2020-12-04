@@ -76,16 +76,14 @@ public class DataActivity extends AppCompatActivity {
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
         solvedComplains = new ArrayList<>();
         pendingComplains = new ArrayList<>();
-        Adapter();
-        adapter = new DataActivityAdapter(pendingComplains,ctx);
-        rvTasks.setAdapter(adapter);
+        Adapt();
         adapter = new DataActivityAdapter(pendingComplains,ctx);
         rvTasks.setAdapter(adapter);
         rbFinished.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                solvedComplains.clear();
-                Adapter();
+            public void onClick(View vew) {
+
+                Adapt();
                 adapter = new DataActivityAdapter(solvedComplains,ctx);
                 rvTasks.setAdapter(adapter);
             }
@@ -94,8 +92,7 @@ public class DataActivity extends AppCompatActivity {
         rbPending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pendingComplains.clear();
-                Adapter();
+                Adapt();
                 adapter = new DataActivityAdapter(pendingComplains,ctx);
                 rvTasks.setAdapter(adapter);
             }
@@ -103,13 +100,15 @@ public class DataActivity extends AppCompatActivity {
 
     }
 
-    public void Adapter(){
+    public void Adapt(){
         String url="https://dry-anchorage-43299.herokuapp.com/firs";
         RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(DataActivity.this));
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try{
+                    solvedComplains.clear();
+                    pendingComplains.clear();
                     for(int i=0;i<response.length();i++){
                         JSONObject object = response.getJSONObject(i);
                         ComplainModel l = new ComplainModel(

@@ -126,6 +126,7 @@ public class DataActivity extends AppCompatActivity {
                         else{
                             solvedComplains.add(l);}
                     }
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

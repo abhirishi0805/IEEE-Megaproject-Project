@@ -42,11 +42,8 @@ public class LogOutDialog extends AppCompatDialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Log out?");
         builder.setMessage("Please confirm if you want to log out?");
-        builder.setPositiveButton("Yes, log out", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                logout();
-            }
+        builder.setPositiveButton("Yes, log out", (dialogInterface, i) -> {
+            logout();
         });
         builder.setNegativeButton("No, cancel", null);
 
@@ -55,21 +52,15 @@ public class LogOutDialog extends AppCompatDialogFragment
     public void logout(){
         RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(ctx));
         String url="https://dry-anchorage-43299.herokuapp.com/users/logout";
-        JsonObjectRequest request=new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                startActivity(intent);
+        JsonObjectRequest request=new JsonObjectRequest(Request.Method.POST, url, null, response -> {
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            startActivity(intent);
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, error -> {
 
-            }
         }){
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headerMap = new HashMap<String, String>();
                 headerMap.put("Content-Type", "application/json");
                 headerMap.put("Authorization", "Bearer " + Token);

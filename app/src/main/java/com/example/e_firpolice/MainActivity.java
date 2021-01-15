@@ -28,22 +28,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button button = findViewById(R.id.btn_LogIn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText username = (EditText) findViewById(R.id.name);
-                user = username.getText().toString().trim();
-                EditText password = (EditText) findViewById(R.id.password);
-                pass = password.getText().toString().trim();
-                if(user.isEmpty()){
-                    username.setError("Please enter username");
-                    username.requestFocus();
-                }
-                else if(pass.isEmpty()){password.setError("Please enter Password");
-                    password.requestFocus();}
-                else{
-                    login(user,pass);
-                }
+        button.setOnClickListener((View view) -> {
+            EditText username = findViewById(R.id.name);
+            user = username.getText().toString().trim();
+            EditText password = findViewById(R.id.password);
+            pass = password.getText().toString().trim();
+            if(user.isEmpty()){
+                username.setError("Please enter username");
+                username.requestFocus();
+            }
+            else if(pass.isEmpty()){password.setError("Please enter Password");
+                password.requestFocus();}
+            else{
+                login(user,pass);
             }
         });
     }
@@ -52,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
 
-        EditText username = (EditText) findViewById(R.id.name);
-        EditText password = (EditText) findViewById(R.id.password);
+        EditText username = findViewById(R.id.name);
+        EditText password = findViewById(R.id.password);
         username.setText(null);
         password.setText(null);
         username.requestFocus();
@@ -69,28 +66,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, o, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Toast.makeText(MainActivity.this,"You have been logged in successfully",Toast.LENGTH_SHORT).show();
-                try{
-                    String token = response.getString("token");
-                    SharedPreferences preferences = MainActivity.this.getSharedPreferences("eFIR", MODE_PRIVATE);
-                    preferences.edit().putString("TOKEN",token).apply();
-                    Intent i = new Intent(MainActivity.this,DataActivity.class);
-                    startActivity(i);
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                }
-//                Intent i3 =  new Intent(MainActivity.this, DataActivity.class);
-//                startActivity(i3);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, o, (JSONObject response) -> {
+            Toast.makeText(MainActivity.this,"You have been logged in successfully",Toast.LENGTH_SHORT).show();
+            try{
+                String token = response.getString("token");
+                SharedPreferences preferences = MainActivity.this.getSharedPreferences("eFIR", MODE_PRIVATE);
+                preferences.edit().putString("TOKEN",token).apply();
+                Intent i = new Intent(MainActivity.this,DataActivity.class);
+                startActivity(i);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this,"Please check your credentials",Toast.LENGTH_SHORT).show();
+            catch (JSONException e) {
+                e.printStackTrace();
             }
+        }, error -> {
+            Toast.makeText(MainActivity.this, "Please check your credentials", Toast.LENGTH_SHORT).show();
         });
         requestQueue.add(request);
     }

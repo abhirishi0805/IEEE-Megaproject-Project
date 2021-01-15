@@ -56,39 +56,30 @@ public class DataActivityAdapter extends RecyclerView.Adapter<DataActivityAdapte
         holder.type.setText(u.getCategory());
         holder.desc.setText(u.getDescription());
         holder.number.setText(u.getNumber());
-        holder.rb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url="https://dry-anchorage-43299.herokuapp.com/firs/"+ u.getId();
-                RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(ctx));
-                JSONObject o = new JSONObject();
-                try {
-                    o.put("status","Solved");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, o, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        list.remove(position);
-                        notifyItemRemoved(position);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }){
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> headerMap = new HashMap<String, String>();
-                        headerMap.put("Content-Type", "application/json");
-                        headerMap.put("Authorization", "Bearer " + Token);
-                        return headerMap;
-                    }
-                };
-                requestQueue.add(request);
+        holder.rb.setOnClickListener(view -> {
+            String url="https://dry-anchorage-43299.herokuapp.com/firs/"+ u.getId();
+            RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(ctx));
+            JSONObject o = new JSONObject();
+            try {
+                o.put("status","Solved");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, o, response -> {
+                list.remove(position);
+                notifyItemRemoved(position);
+            }, error -> {
+
+            }){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headerMap = new HashMap<String, String>();
+                    headerMap.put("Content-Type", "application/json");
+                    headerMap.put("Authorization", "Bearer " + Token);
+                    return headerMap;
+                }
+            };
+            requestQueue.add(request);
         });
     }
 

@@ -54,24 +54,21 @@ public class DataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data);
         SharedPreferences preferences = DataActivity.this.getSharedPreferences("eFIR", MODE_PRIVATE);
         Token  = preferences.getString("TOKEN",null);//second parameter default value.
-        ctx =DataActivity.this;
+        ctx = DataActivity.this;
         rbFinished = findViewById(R.id.rbFinished);
         rbPending = findViewById(R.id.rbPending);
 
-        Toolbar actionBar = (Toolbar) findViewById(R.id.toolbar_data_activity);
+        Toolbar actionBar = findViewById(R.id.toolbar_data_activity);
         setSupportActionBar(actionBar);
         if(actionBar!=null){
             getSupportActionBar().setTitle("DataBase") ;
         }
         assert actionBar != null;
-        actionBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
+        actionBar.setNavigationOnClickListener(view -> {
+            onBackPressed();
         });
 
-        rvTasks = (RecyclerView) findViewById(R.id.rvTasks);
+        rvTasks = findViewById(R.id.rvTasks);
         rvTasks.setHasFixedSize(true);
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
         solvedComplains = new ArrayList<>();
@@ -79,23 +76,17 @@ public class DataActivity extends AppCompatActivity {
         Adapt();
         adapter = new DataActivityAdapter(pendingComplains,ctx);
         rvTasks.setAdapter(adapter);
-        rbFinished.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View vew) {
+        rbFinished.setOnClickListener((View vew) -> {
 
-                Adapt();
-                adapter = new DataActivityAdapter(solvedComplains,ctx);
-                rvTasks.setAdapter(adapter);
-            }
+            Adapt();
+            adapter = new DataActivityAdapter(solvedComplains,ctx);
+            rvTasks.setAdapter(adapter);
         });
 
-        rbPending.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Adapt();
-                adapter = new DataActivityAdapter(pendingComplains,ctx);
-                rvTasks.setAdapter(adapter);
-            }
+        rbPending.setOnClickListener((View view) -> {
+            Adapt();
+            adapter = new DataActivityAdapter(pendingComplains,ctx);
+            rvTasks.setAdapter(adapter);
         });
 
     }
@@ -103,42 +94,36 @@ public class DataActivity extends AppCompatActivity {
     public void Adapt(){
         String url="https://dry-anchorage-43299.herokuapp.com/firs";
         RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(DataActivity.this));
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try{
-                    solvedComplains.clear();
-                    pendingComplains.clear();
-                    for(int i=0;i<response.length();i++){
-                        JSONObject object = response.getJSONObject(i);
-                        ComplainModel l = new ComplainModel(
-                                object.getString("name"),
-                                object.getString("father"),
-                                object.getString("location"),
-                                object.getString("category"),
-                                object.getString("description"),
-                                object.getString("number"),
-                                object.getString("_id"),
-                                object.getString("status")
-                        );
-                        if(object.getString("status").equals("Pending")){
-                            pendingComplains.add(l);}
-                        else{
-                            solvedComplains.add(l);}
-                    }
-                    adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, (JSONArray response) -> {
+            try{
+                solvedComplains.clear();
+                pendingComplains.clear();
+                for(int i=0;i<response.length();i++){
+                    JSONObject object = response.getJSONObject(i);
+                    ComplainModel l = new ComplainModel(
+                            object.getString("name"),
+                            object.getString("father"),
+                            object.getString("location"),
+                            object.getString("category"),
+                            object.getString("description"),
+                            object.getString("number"),
+                            object.getString("_id"),
+                            object.getString("status")
+                    );
+                    if(object.getString("status").equals("Pending")){
+                        pendingComplains.add(l);}
+                    else{
+                        solvedComplains.add(l);}
                 }
+                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, (VolleyError error) -> {
 
-            }
         }){
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headerMap = new HashMap<String, String>();
                 headerMap.put("Content-Type", "application/json");
                 headerMap.put("Authorization", "Bearer " + Token);
